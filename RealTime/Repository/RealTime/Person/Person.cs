@@ -3,7 +3,7 @@ namespace Allors.Repository.Domain
     using System;
 
     #region Allors
-    [Id("6FC321B9-4B7B-4AB2-9AB0-7CFB568F58FD")]
+    [Id("E4DA2DCC-F64F-4911-A7A4-440743EFB5E2")]
     #endregion
     public partial class Person : User, Deletable, UniquelyIdentifiable
     {
@@ -31,13 +31,24 @@ namespace Allors.Repository.Domain
         #endregion
         
         #region Allors
-        [Id("4E9331A3-62D4-4D90-A13D-2955C9057D0F")]
-        [AssociationId("5B0E5164-BCEF-4346-B1B3-31A709EC2C5D")]
-        [RoleId("2687922A-43F2-48AD-83B7-9B1005C9A9E4")]
+        [Id("D22C19BB-305A-4A63-88FD-5BEA21D13C65")]
+        [AssociationId("CCDF00FF-3590-4A56-9EB2-7311AA6A8079")]
+        [RoleId("CF4A7972-5CDF-452D-871C-506B05A87CA9")]
+        [Indexed]
         #endregion
         [Group("Workspace")]
         public bool IsOnline { get; set; }
-
+        
+        #region Allors
+        [Id("B34CC2F7-05EE-4476-8560-D66DA9970F0A")]
+        [AssociationId("9CB822EC-99BA-44EC-8FB5-D73784006031")]
+        [RoleId("2AF875FC-8BCA-4274-AF8D-49C7F918FC10")]
+        [Indexed]
+        #endregion
+        [Multiplicity(Multiplicity.OneToOne)]
+        [Group("Workspace")]
+        public EndPoint EndPoint { get; set; }
+        
         #region inherited methods
         public void OnBuild() { }
 

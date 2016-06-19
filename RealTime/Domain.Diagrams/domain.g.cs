@@ -211,9 +211,30 @@ namespace Allors.Domain
 						global::System.String Name {set;}
 
 		}
+		public interface EndPoint  : AccessControlledObject, Deletable, UniquelyIdentifiable 
+		{
+						Call Call {set;}
+
+						Signal Signals {set;}
+
+						global::System.Boolean Established {set;}
+
+		}
+		public interface Signal  : AccessControlledObject, Deletable, UniquelyIdentifiable 
+		{
+						global::System.String Value {set;}
+
+		}
+		public interface Call  : AccessControlledObject, Deletable, UniquelyIdentifiable 
+		{
+						Person Initiator {set;}
+
+		}
 		public interface Person  : User, Deletable, UniquelyIdentifiable 
 		{
 						global::System.Boolean? IsOnline {set;}
+
+						EndPoint EndPoint {set;}
 
 		}
 }

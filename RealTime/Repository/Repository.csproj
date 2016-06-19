@@ -134,6 +134,9 @@
     <Compile Include="Custom\AssemblyInfo.cs" />
     <Compile Include="RealTime\AssemblyInfo.cs" />
     <Compile Include="RealTime\Base\Singleton.cs" />
+    <Compile Include="RealTime\Communication\EndPoint.cs" />
+    <Compile Include="RealTime\Communication\Signal.cs" />
+    <Compile Include="RealTime\Communication\Call.cs" />
     <Compile Include="RealTime\Person\Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -4,6 +4,8 @@
     {
         public override void Execute()
         {
+            var meta = Config.Default.MetaPopulation;
+            var validationLog = meta.Validate();
         }
     }
 }

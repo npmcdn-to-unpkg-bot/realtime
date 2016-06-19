@@ -81,8 +81,7 @@
         {
             this.Clients.Others.clientRefresh();
         }
-
-
+        
         private static ISession CreateSession()
         {
             return Config.Default.CreateSession();

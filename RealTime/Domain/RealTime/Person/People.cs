@@ -8,7 +8,6 @@ namespace Allors.Domain
 {
     public partial class People 
     {
-
         public Person FindByUsername(string username)
         {
             return this.FindBy(this.Meta.UserName, username);

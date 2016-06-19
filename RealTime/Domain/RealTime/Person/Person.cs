@@ -12,6 +12,11 @@ namespace Allors.Domain
     {
         public void RealTimeOnBuild(ObjectOnBuild method)
         {
+            if (!this.ExistEndPoint)
+            {
+                this.EndPoint = new EndPointBuilder(this.strategy.Session).Build();
+            }
+
             new UserGroups(this.strategy.Session).Creators.AddMember(this);
             new UserGroups(this.strategy.Session).Members.AddMember(this);
         }
