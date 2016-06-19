@@ -1,3 +1,3 @@
 [submodule "platform"]
-	path = platform
+	path = Platform
 	url = https://github.com/Allors/platform

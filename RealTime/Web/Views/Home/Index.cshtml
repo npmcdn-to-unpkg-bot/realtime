@@ -1,0 +1,34 @@
+﻿@{Layout = null;}<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Allors Real-Time</title>
+
+    @Styles.Render("~/bundles/css")
+    <link href="/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Slab" rel="stylesheet" type="text/css">
+</head>
+
+<body ng-controller="mainController as vm">
+    <div ng-include="'app/custom/shell/main.html'"></div>
+
+    <object id="plugin0" type="application/x-temwebrtcplugin" width="1" height="1">
+        <param name="pluginId" value="plugin0">
+        <param name="pageId" value="r7x2it6l9a0885mi">
+        <param name="onload" value="TemInitPlugin0">
+        <param name="forceGetAllCams" value="True">
+    </object>
+    
+    @Html.Raw(JSNLog.JavascriptLogging.Configure())
+
+    @Scripts.Render("~/bundles/common")
+    @Scripts.Render("~/bundles/angular")
+    @Scripts.Render("~/bundles/allors")
+    @Scripts.Render("~/bundles/app")
+
+    <script src="/signalr/hubs"></script>
+
+</body>
+</html>

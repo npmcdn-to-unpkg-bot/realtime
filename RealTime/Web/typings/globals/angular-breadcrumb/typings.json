@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/84aa9f038474bb570a70f37b0858708a6dd56282/angular-breadcrumb/angular-breadcrumb.d.ts",
+    "raw": "registry:dt/angular-breadcrumb#0.0.0+20160317151335",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/84aa9f038474bb570a70f37b0858708a6dd56282/angular-breadcrumb/angular-breadcrumb.d.ts"
+  }
+}

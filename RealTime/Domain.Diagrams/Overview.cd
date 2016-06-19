@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Interface Name="Allors.Domain.ChatMessage" Collapsed="true">
+    <Position X="4.75" Y="2.75" Width="1.75" />
+    <AssociationLine Name="ViewedByPeople" Type="Allors.Domain.Person" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.5" Y="3.16" />
+        <Point X="8" Y="3.16" />
+        <Point X="8" Y="4" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACCAAAAAA=</HashCode>
+      <FileName>domain.g.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ViewedByPeople" />
+    </ShowAsAssociation>
+  </Interface>
+  <Interface Name="Allors.Domain.Communication" Collapsed="true">
+    <Position X="7.25" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAABAAAAgAAAAAAAgAACAAAAAAgAA=</HashCode>
+      <FileName>domain.g.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Chat" />
+      <Property Name="Participants" />
+      <Property Name="ActiveCall" />
+      <Property Name="Calls" />
+    </ShowAsAssociation>
+  </Interface>
+  <Interface Name="Allors.Domain.OnlineConnection" Collapsed="true">
+    <Position X="0.5" Y="3" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAQAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>domain.g.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Allors.Domain.Person" Collapsed="true">
+    <Position X="8" Y="4" Width="2" />
+    <AssociationLine Name="ActiveCommunication" Type="Allors.Domain.Communication">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.137" Y="0.38" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="ActiveLinkPeople" Type="Allors.Domain.Person" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="10" Y="4.682" />
+        <Point X="10.25" Y="4.682" />
+        <Point X="10.25" Y="4.53" />
+        <Point X="10" Y="4.53" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAQAAAAAAQAAAAAgAAAAAQAAAAA=</HashCode>
+      <FileName>domain.g.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Communications" />
+      <Property Name="ActiveCommunication" />
+      <Property Name="ActiveLinkPeople" />
+      <Property Name="OnlineStatus" />
+      <Property Name="Avatar" />
+    </ShowAsAssociation>
+  </Interface>
+  <Interface Name="Allors.Domain.OnlineStatus" Collapsed="true">
+    <Position X="3.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>domain.g.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Connections" />
+    </ShowAsAssociation>
+  </Interface>
+  <Interface Name="Allors.Domain.Call" Collapsed="true">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAABAAAgAAAAAAABAAAAAiAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>domain.g.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="CurrentObjectState" />
+    </ShowAsAssociation>
+  </Interface>
+  <Interface Name="Allors.Domain.Chat" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAiAAAAAACACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>domain.g.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ChatMessages" />
+    </ShowAsAssociation>
+  </Interface>
+  <Interface Name="Allors.Domain.CallObjectState" Collapsed="true">
+    <Position X="1.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>domain.g.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Allors.Domain.Media" Collapsed="true">
+    <Position X="8.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAECAAAAAAABAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>domain.g.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
