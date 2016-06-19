@@ -16,7 +16,11 @@
 
             var me = (Person)this.AllorsUser;
             response.AddObject("me", me, M.Person.AppHomeTree);
-            
+
+            var onlinePeople = new People(this.AllorsSession).Extent();
+            onlinePeople.Filter.AddEquals(M.Person.IsOnline, true);
+            response.AddCollection("onlinePeople", onlinePeople, M.Person.MainOnlineTree);
+
             return this.JsonSuccess(response.Build());
         }
     }

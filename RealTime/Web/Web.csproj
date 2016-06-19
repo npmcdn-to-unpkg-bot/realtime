@@ -195,6 +195,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\custom\shell\main.html" />
+    <Content Include="app\realtime\components\call\call.html" />
     <Content Include="app\realtime\pages\home\home.html" />
     <Content Include="app\custom\shell\navigation.html" />
     <Content Include="Content\css\mvc.css" />
@@ -440,7 +441,6 @@
     <Folder Include="app\custom\components\" />
     <Folder Include="app\custom\pages\" />
     <Folder Include="app\custom\services\" />
-    <Folder Include="app\realtime\components\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Allors\Client\Base\Angular\allors.module.ts" />
@@ -519,6 +519,7 @@
     <TypeScriptCompile Include="app\app.textangular.ts" />
     <TypeScriptCompile Include="app\realtime\AllorsHub.ts" />
     <TypeScriptCompile Include="app\realtime\Application.ts" />
+    <TypeScriptCompile Include="app\realtime\components\call\call.ts" />
     <TypeScriptCompile Include="app\realtime\pages\Filter.ts" />
     <TypeScriptCompile Include="app\app.logging.ts" />
     <TypeScriptCompile Include="app\app.loading.ts" />

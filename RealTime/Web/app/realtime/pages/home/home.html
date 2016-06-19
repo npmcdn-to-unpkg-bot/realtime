@@ -1,2 +1,7 @@
-﻿<h1>{{vm.me.UserName}}</h1>
+﻿<h2>Online</h2>
+<ul>
+    <li ng-repeat="person in vm.onlinePeople">
+        {{person.UserName}}
+    </li>
+</ul>
 
