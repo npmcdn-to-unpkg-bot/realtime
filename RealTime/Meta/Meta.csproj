@@ -271,8 +271,8 @@
     <Compile Include="Generated\units.g.cs" />
     <Compile Include="RealTime\Domain\Base\Deletable.cs" />
     <Compile Include="RealTime\Domain\Base\Enumeration.cs" />
-    <Compile Include="RealTime\Domain\Person - Copy\Person.cs" />
-    <Compile Include="RealTime\Domain\Communication\EndPoint.cs" />
+    <Compile Include="RealTime\Domain\Communication\Call.cs" />
+    <Compile Include="RealTime\Domain\Relation\Person.cs" />
     <Compile Include="RealTime\Domain\Base\UniquelyIdentifiable.cs" />
     <Compile Include="RealTime\Domain\Base\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

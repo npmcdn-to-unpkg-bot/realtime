@@ -9,7 +9,7 @@
             config.GrantAdministrator(this.ObjectType, full);
             config.GrantOwner(this.ObjectType, full);
 
-            config.GrantMember(this.ObjectType, Operations.Read);
+            config.GrantMember(this.ObjectType, full);
 
             config.GrantCreator(this.ObjectType, full);
         }

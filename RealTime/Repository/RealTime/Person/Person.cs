@@ -39,16 +39,6 @@ namespace Allors.Repository.Domain
         [Group("Workspace")]
         public bool IsOnline { get; set; }
         
-        #region Allors
-        [Id("B34CC2F7-05EE-4476-8560-D66DA9970F0A")]
-        [AssociationId("9CB822EC-99BA-44EC-8FB5-D73784006031")]
-        [RoleId("2AF875FC-8BCA-4274-AF8D-49C7F918FC10")]
-        [Indexed]
-        #endregion
-        [Multiplicity(Multiplicity.OneToOne)]
-        [Group("Workspace")]
-        public EndPoint EndPoint { get; set; }
-        
         #region inherited methods
         public void OnBuild() { }
 

@@ -9,7 +9,7 @@
         constructor(private allors: Services.AllorsService,$scope: angular.IScope) {
             super("AppHome", allors, $scope);
 
-            this.$scope.$on(AllorsHub.refreshEventName, () => this.refresh());
+            this.$scope.$on(AllorsHub.onRefreshEvent, () => this.refresh());
 
             this.refresh();
         }

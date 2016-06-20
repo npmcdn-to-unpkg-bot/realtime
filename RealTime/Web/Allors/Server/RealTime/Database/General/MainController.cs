@@ -22,12 +22,14 @@
             onlinePeople.Filter.AddEquals(M.Person.IsOnline, true);
             response.AddCollection("onlinePeople", onlinePeople, M.Person.MainOnlineTree);
 
-            if (me.EndPoint.ExistCall)
-            {
-                var call = me.EndPoint.Call;
-                var remoteEndPoint = call.EndPointsWhereCall.FirstOrDefault(v => !me.EndPoint.Equals(v));
-                response.AddObject("remoteEndPoint", remoteEndPoint, M.EndPoint.MainTree);
-            }
+            var calls = new Calls(this.AllorsSession).Extent();
+            var or = calls.Filter.AddOr();
+            or.AddEquals(M.Call.Caller, me);
+            or.AddEquals(M.Call.Callee, me);
+            response.AddCollection("calls", calls, M.Call.MainTree);
+
+            var callObjectStates = new CallObjectStates(this.AllorsSession).Extent();
+            response.AddCollection("callObjectStates", callObjectStates);
 
             return this.JsonSuccess(response.Build());
         }

@@ -3,40 +3,28 @@
   <Interface Name="Allors.Domain.Person">
     <Position X="1" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>domain.g.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="EndPoint" />
-    </ShowAsAssociation>
   </Interface>
   <Interface Name="Allors.Domain.Call">
-    <Position X="3.75" Y="3.5" Width="1.5" />
+    <Position X="4.25" Y="1.25" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAA=</HashCode>
+      <HashCode>QAAAAAAAAgAAAAAAAAAAAAAiAAAAAAAAAAAAAEAAAAA=</HashCode>
       <FileName>domain.g.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Initiator" />
+      <Property Name="CurrentObjectState" />
+      <Property Name="Caller" />
+      <Property Name="Callee" />
     </ShowAsAssociation>
   </Interface>
-  <Interface Name="Allors.Domain.Signal">
-    <Position X="6.5" Y="1.25" Width="1.5" />
+  <Interface Name="Allors.Domain.CallObjectState" Collapsed="true">
+    <Position X="8" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>domain.g.cs</FileName>
     </TypeIdentifier>
-  </Interface>
-  <Interface Name="Allors.Domain.EndPoint">
-    <Position X="3.75" Y="1.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAQAAAAAAAAAAQABAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>domain.g.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="Call" />
-      <Property Name="Signals" />
-    </ShowAsAssociation>
   </Interface>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

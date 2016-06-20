@@ -20,6 +20,5 @@
   },
   "_source": "https://github.com/JustMaier/angular-signalr-hub.git",
   "_target": "^1.6.2",
-  "_originalSource": "angular-signalr-hub",
-  "_direct": true
+  "_originalSource": "angular-signalr-hub"
 }

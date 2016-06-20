@@ -8,6 +8,5 @@
 
             this.hub = new AllorsHub(allors.$rootScope, Hub);
         }
-
     }
 }

@@ -379,7 +379,6 @@
     <Compile Include="Allors\Server\Base\Security\AllorsMembershipProvider.cs" />
     <Compile Include="Allors\Server\Base\Security\AllorsRoleProvider.cs" />
     <Compile Include="Allors\Server\RealTime\Filters\NLogExceptionFilter.cs" />
-    <Compile Include="Allors\Server\RealTime\Hubs\IAllorsHub.cs" />
     <Compile Include="Allors\Server\RealTime\RealTimeApiController.cs" />
     <Compile Include="Allors\Server\RealTime\RealTimeController.cs" />
     <Compile Include="App_Start\AllorsConfig.cs" />
@@ -437,7 +436,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Allors\Client\RealTime\" />
     <Folder Include="app\custom\components\" />
     <Folder Include="app\custom\pages\" />
     <Folder Include="app\custom\services\" />
@@ -507,18 +505,19 @@
     <TypeScriptCompile Include="Allors\Client\Base\Workspace\WorkspaceObject.ts" />
     <TypeScriptCompile Include="Allors\Client\Custom\workspace.d.ts" />
     <TypeScriptCompile Include="Allors\Client\Generated\domain\Call.g.ts" />
+    <TypeScriptCompile Include="Allors\Client\Generated\domain\CallObjectState.g.ts" />
     <TypeScriptCompile Include="Allors\Client\Generated\domain\Counter.g.ts" />
-    <TypeScriptCompile Include="Allors\Client\Generated\domain\EndPoint.g.ts" />
     <TypeScriptCompile Include="Allors\Client\Generated\domain\Enumeration.g.ts" />
     <TypeScriptCompile Include="Allors\Client\Generated\domain\Media.g.ts" />
     <TypeScriptCompile Include="Allors\Client\Generated\domain\ObjectState.g.ts" />
     <TypeScriptCompile Include="Allors\Client\Generated\domain\Person.g.ts" />
     <TypeScriptCompile Include="Allors\Client\Generated\domain\Role.g.ts" />
-    <TypeScriptCompile Include="Allors\Client\Generated\domain\Signal.g.ts" />
     <TypeScriptCompile Include="Allors\Client\Generated\domain\UniquelyIdentifiable.g.ts" />
     <TypeScriptCompile Include="Allors\Client\Generated\domain\User.g.ts" />
     <TypeScriptCompile Include="Allors\Client\Generated\domain\UserGroup.g.ts" />
     <TypeScriptCompile Include="Allors\Client\Generated\meta\meta.g.ts" />
+    <TypeScriptCompile Include="Allors\Client\RealTime\Call.ts" />
+    <TypeScriptCompile Include="Allors\Client\RealTime\CallObjectState.ts" />
     <TypeScriptCompile Include="app\app.block.ts" />
     <TypeScriptCompile Include="app\app.textangular.ts" />
     <TypeScriptCompile Include="app\realtime\AllorsHub.ts" />

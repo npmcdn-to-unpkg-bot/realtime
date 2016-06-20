@@ -42,33 +42,32 @@ namespace Allors.Domain
 					public interface UserGroup : UniquelyIdentifiable 
 					{
 					}
-					public interface EndPoint : UniquelyIdentifiable 
-					{
-									Call Call {set;}
-
-
-									Signal Signals {set;}
-
-
-									global::System.Boolean Established {set;}
-
-					}
-					public interface Signal : UniquelyIdentifiable 
-					{
-									global::System.String Value {set;}
-
-					}
 					public interface Call : UniquelyIdentifiable 
 					{
-									Person Initiator {set;}
+									CallObjectState CurrentObjectState {set;}
 
+
+									global::System.DateTime? CreationDate {set;}
+
+
+									global::System.DateTime? StartDate {set;}
+
+
+									global::System.DateTime? EndDate {set;}
+
+
+									Person Caller {set;}
+
+
+									Person Callee {set;}
+
+					}
+					public interface CallObjectState : ObjectState 
+					{
 					}
 					public interface Person : User, UniquelyIdentifiable 
 					{
 									global::System.Boolean? IsOnline {set;}
-
-
-									EndPoint EndPoint {set;}
 
 					}
 

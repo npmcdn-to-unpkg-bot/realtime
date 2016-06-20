@@ -8,6 +8,17 @@
     using Microsoft.AspNet.SignalR;
     using Microsoft.AspNet.SignalR.Hubs;
 
+    public interface IAllorsHub
+    {
+        void onRefresh();
+
+        void onCandidate(string candidate);
+
+        void onOffer(string offer);
+
+        void onAnswer(string offer);
+    }
+
     [HubName("allors")]
     public class AllorsHub : Hub<IAllorsHub>
     {
@@ -27,7 +38,7 @@
                     session.Commit();
                 }
 
-                return Task.Factory.StartNew(this.ServerRefresh);
+                return Task.Factory.StartNew(this.Refresh);
             }
 
             return base.OnConnected();
@@ -48,7 +59,7 @@
                     session.Derive(true);
                     session.Commit();
 
-                    return Task.Factory.StartNew(this.ServerRefresh);
+                    return Task.Factory.StartNew(this.Refresh);
                 }
             }
 
@@ -70,18 +81,38 @@
                     session.Derive(true);
                     session.Commit();
 
-                    return Task.Factory.StartNew(this.ServerRefresh);
+                    return Task.Factory.StartNew(this.Refresh);
                 }
             }
 
             return base.OnReconnected();
         }
-        
-        public void ServerRefresh()
+
+        public void Refresh()
         {
-            this.Clients.Others.clientRefresh();
+            this.Clients.Others.onRefresh();
         }
-        
+
+        public void Refresh(string userName)
+        {
+            this.Clients.User(userName).onRefresh();
+        }
+
+        public void Candidate(string userName, string candidate)
+        {
+            this.Clients.User(userName).onCandidate(candidate);
+        }
+
+        public void Offer(string userName, string offer)
+        {
+            this.Clients.User(userName).onOffer(offer);
+        }
+
+        public void Answer(string userName, string answer)
+        {
+            this.Clients.User(userName).onAnswer(answer);
+        }
+
         private static ISession CreateSession()
         {
             return Config.Default.CreateSession();

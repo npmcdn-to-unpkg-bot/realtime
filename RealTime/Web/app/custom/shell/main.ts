@@ -1,30 +1,38 @@
 ﻿namespace App.Shell {
 
-    declare var AdapterJS: any;
-
     class MainController extends Pages.Page {
 
+        // Only on same subnet
         iceServers = [
-            { urls: "stun:stun.l.google.com:19302" },
         ];
 
         me: Person;
         onlinePeople: Person[];
+
+        other: Person;
+
+        calls: Call[];
+        callObjectStates: CallObjectState[];
+
+        requestedCalls: Call[];
+        acceptedCalls: Call[];
+
+        requestedCallsWhereCaller: Call[];
+        requestedCallsWhereCallee: Call[];
 
         localStream: MediaStream;
         remoteStream: MediaStream;
 
         peerConnection: RTCPeerConnection;
 
-        processedSignals: string[];
-
-        remoteEndPoint: EndPoint;
-
         static $inject = ["allorsService", "$scope"];
         constructor(private allors: Services.AllorsService, $scope: angular.IScope) {
             super("Main", allors, $scope);
 
-            this.$scope.$on(AllorsHub.refreshEventName, () => this.refresh());
+            this.$scope.$on(AllorsHub.onRefreshEvent, () => this.refresh());
+            this.$scope.$on(AllorsHub.onCandidateEvent, (event, candidate: string) => this.onCandidate(candidate));
+            this.$scope.$on(AllorsHub.onOfferEvent, (event, offer: string) => this.onOffer(offer));
+            this.$scope.$on(AllorsHub.onAnswerEvent, (event, answer: string) => this.onAnswer(answer));
 
             navigator.getUserMedia(
                 {
@@ -55,51 +63,66 @@
             const other = this.onlinePeople.filter(v => v !== this.me)[0];
 
             const call = this.me.session.create("Call") as Call;
-            call.Initiator = this.me;
-            this.me.EndPoint.Call = call;
-            other.EndPoint.Call = call;
+            call.Caller = this.me;
+            call.Callee = other;
 
-            this.save();
+            this
+                .save()
+                .finally(() => {
+                    this.allors.application.hub.refresh(other.UserName);
+                });
+        }
+
+        accept(call: Call) {
+            const other = call.other(this.me);
+            call.CurrentObjectState = this.callObjectStates.filter(v=>v.isAccepted)[0];
+            this.save()
+                .then(() => this.allors.application.hub.refresh(other.UserName));
         }
 
         protected refresh(): angular.IPromise<any> {
             return this.load()
                 .then(() => {
+
                     this.me = this.objects["me"] as Person;
                     this.onlinePeople = this.collections["onlinePeople"] as Person[];
+                    this.calls = this.collections["calls"] as Call[];
+                    this.callObjectStates = this.collections["callObjectStates"] as CallObjectState[];
 
-                    this.remoteEndPoint = this.objects["remoteEndPoint"] as EndPoint;
+                    this.requestedCalls = this.calls.filter(v => v.CurrentObjectState.isRequested);
+                    this.acceptedCalls = this.calls.filter(v => v.CurrentObjectState.isAccepted);
+
+                    this.requestedCallsWhereCallee = this.requestedCalls.filter(v => v.isCallee(this.me));
+                    this.requestedCallsWhereCaller = this.requestedCalls.filter(v => v.isCaller(this.me));
 
                     this.manageCall();
                 });
         }
 
-        manageCall() {
-            if (this.me.EndPoint.Call) {
-                if (!this.peerConnection) {
-                    this.processedSignals = new Array<string>();
+        private manageCall() {
+            if (this.acceptedCalls && this.acceptedCalls.length === 1) {
 
+                var acceptedCall = this.acceptedCalls[0];
+                this.other = acceptedCall.other(this.me);
+
+                if (!this.peerConnection) {
                     this.peerConnection = new RTCPeerConnection({ iceServers: this.iceServers });
                     this.peerConnection.addStream(this.localStream);
 
                     this.peerConnection.onicecandidate = event => {
                         if (event.candidate) {
-                            const candidate = JSON.stringify({ "candidate": event.candidate });
-                            const signal = this.me.session.create("Signal") as Signal;
-                            signal.Value = candidate;
-                            this.me.EndPoint.AddSignal(signal);
-                            this.save()
-                                .then(() => this.allors.application.hub.serverRefresh());
 
-                        } else {
-                            this.me.EndPoint.Established = true;
-                            this.save()
-                                .then(() => this.allors.application.hub.serverRefresh());
+                            this.allors.$log.info(`peerConnection.onicecandidate: ${event}`);
+
+                            this.allors.application.hub.candidate(this.other.UserName, JSON.stringify(event.candidate));
                         }
                     };
 
                     // Stream handlers
                     this.peerConnection.onaddstream = event => {
+
+                        this.allors.$log.info(`peerConnection.onaddstream: ${event}`);
+
                         this.remoteStream = event.stream;
                         var video = document.getElementById("remoteVideo") as any;
                         AdapterJS.attachMediaStream(video, this.remoteStream);
@@ -107,86 +130,75 @@
                     };
 
                     this.peerConnection.onremovestream = event => {
+
+                        this.allors.$log.info(`peerConnection.onremovestream: ${event}`);
+
                         var video = document.getElementById("remoteVideo") as any;
                         AdapterJS.attachMediaStream(video, null);
                         this.remoteStream = null;
                     };
 
-                    if (this.me.EndPoint.Call.Initiator === this.me) {
-                        this.peerConnection.createOffer(desc => {
 
-                            this.allors.$log.debug(`Offer returned ${desc}`, "WebRTC");
+                    if (acceptedCall.isCaller(this.me)) {
+                        this.peerConnection.createOffer(offer => {
 
-                            this.peerConnection.setLocalDescription(desc, () => {
-                                this.allors.$log.debug(`Sending signal to the server${this.peerConnection.localDescription}`, "WebRTC");
-
-                                var signal = this.me.session.create("Signal") as Signal;
-                                signal.Value = JSON.stringify({ "sdp": this.peerConnection.localDescription });
-                                this.me.EndPoint.AddSignal(signal);
-                                this.save()
-                                    .then( () => this.allors.application.hub.serverRefresh());
-
-                            }, (error) => {
-                                this.allors.$log.error(error);
-                            });
+                            this.allors.$log.info(`peerConnection.createOffer: ${offer}`);
+                            
+                            this.peerConnection.setLocalDescription(offer);
+                            this.allors.application.hub.offer(this.other.UserName, JSON.stringify(offer));
                         }, error => {
-                            this.allors.$log.error("Error creating WebRTC session", "WebRTC", error);
+                            this.allors.$log.error(error);
                         });
                     }
                 }
-
-                if (this.remoteEndPoint) {
-                    const unprocessedSignals = this.remoteEndPoint.Signals.filter(v => this.processedSignals.indexOf(v.Value) < 0);
-
-                    unprocessedSignals.forEach(v => {
-
-                        this.processedSignals.push(v.Value);
-
-                        var signal = JSON.parse(v.Value);
-                        var candidate = JSON.parse(signal.candidate);
-
-                        this.allors.$log.debug(`Received Signal: ${JSON.stringify(candidate)}`, "WebRTC");
-
-                        // Route signal based on type
-                        if (candidate.sdp) {
-                            this.peerConnection.setRemoteDescription(new RTCSessionDescription(candidate.sdp), () => {
-                                if (this.peerConnection.remoteDescription.type === "offer") {
-
-                                    //this.notifier.debug("Received offer, sending response...", "WebRTC");
-                                    //this.application.allors.onReadyForStreamCallback(connection);
-
-                                    this.peerConnection.createAnswer(desc => {
-                                        this.peerConnection.setLocalDescription(desc, () => {
-
-                                            var signal = this.me.session.create("Signal") as Signal;
-                                            signal.Value = JSON.stringify({ "sdp": this.peerConnection.localDescription });
-                                            this.me.EndPoint.AddSignal(signal);
-                                            this.save()
-                                                .then(() => this.allors.application.hub.serverRefresh());
-
-                                        }, (error) => {
-                                            this.allors.$log.error(`Error creating local description: ${error}`, "WebRTC");
-                                        });
-                                    },
-                                        (error) => {
-                                            this.allors.$log.error(`Error creating session description: ${error}`, "WebRTC");
-                                        });
-                                } else if (this.peerConnection.remoteDescription.type === "answer") {
-                                    this.allors.$log.debug("Received answer", "WebRTC");
-                                }
-                            }, (error) => {
-                                this.allors.$log.error(`Error creating remote description: ${error}`, "WebRTC");
-                            });
-                        } else if (candidate.candidate) {
-                            this.peerConnection.addIceCandidate(new RTCIceCandidate(candidate), () => { }, (error) => { });
-                        }
-
-                    });
-                }
-
-            } else {
-                // TODO: If peerconnection then destroy
             }
+        }
+
+        private onCandidate(candidate: string) {
+            this.allors.$log.info(`onCandidate: ${candidate}`);
+
+            this.peerConnection.addIceCandidate(new RTCIceCandidate(JSON.parse(candidate)), () => {}, () => {});
+        }
+
+        private onOffer(offer: string) {
+            this.allors.$log.info(`onOffer: ${offer}`);
+
+            this.peerConnection.setRemoteDescription(new RTCSessionDescription(JSON.parse(offer)),
+                () => {
+                    this.allors.$log.info(`peerConnection.setRemoteDescription`);
+                },
+                () => {
+                    this.allors.$log.error(`peerConnection.setRemoteDescription`);
+                });
+
+            this.peerConnection.createAnswer( answer => {
+                this.allors.$log.info(`peerConnection.createAnswer`);
+
+                this.peerConnection.setLocalDescription(answer,
+                    () => {
+                        this.allors.$log.info(`peerConnection.setLocalDescription`);
+
+                        this.allors.application.hub.answer(this.other.UserName, JSON.stringify(answer));
+                    },
+                    () => {
+                        this.allors.$log.error(`peerConnection.setLocalDescription`);
+                    });
+            },
+            error => {
+                this.allors.$log.error(`peerConnection.createAnswer`);
+            });
+        }
+
+        private onAnswer(answer: string) {
+            this.allors.$log.info(`onAnswer: ${answer}`);
+
+            this.peerConnection.setRemoteDescription(new RTCSessionDescription(JSON.parse(answer)),
+                () => {
+                    this.allors.$log.info(`peerConnection.setRemoteDescription`);
+                },
+                () => {
+                    this.allors.$log.error(`peerConnection.setRemoteDescription`);
+                });
         }
     }
     angular

@@ -405,12 +405,12 @@
     <Compile Include="Generated\AsyncDerivableAsyncDerive.g.cs" />
     <Compile Include="Generated\AsyncDerivation.g.cs" />
     <Compile Include="Generated\Call.g.cs" />
+    <Compile Include="Generated\CallObjectState.g.cs" />
     <Compile Include="Generated\Counter.g.cs" />
     <Compile Include="Generated\Country.g.cs" />
     <Compile Include="Generated\Currency.g.cs" />
     <Compile Include="Generated\Deletable.g.cs" />
     <Compile Include="Generated\DeletableDelete.g.cs" />
-    <Compile Include="Generated\EndPoint.g.cs" />
     <Compile Include="Generated\Enumeration.g.cs" />
     <Compile Include="Generated\Language.g.cs" />
     <Compile Include="Generated\Locale.g.cs" />
@@ -431,7 +431,6 @@
     <Compile Include="Generated\Role.g.cs" />
     <Compile Include="Generated\SecurityToken.g.cs" />
     <Compile Include="Generated\SecurityTokenOwner.g.cs" />
-    <Compile Include="Generated\Signal.g.cs" />
     <Compile Include="Generated\Singleton.g.cs" />
     <Compile Include="Generated\Transitional.g.cs" />
     <Compile Include="Generated\UniquelyIdentifiable.g.cs" />
@@ -440,10 +439,10 @@
     <Compile Include="RealTime\Base\Medias.cs" />
     <Compile Include="RealTime\Base\Singletons.cs" />
     <Compile Include="RealTime\Base\UserGroups.cs" />
+    <Compile Include="RealTime\Communication\CallObjectState.cs" />
+    <Compile Include="RealTime\Communication\CallObjectStates.cs" />
     <Compile Include="RealTime\Communication\Calls.cs" />
     <Compile Include="RealTime\Communication\Call.cs" />
-    <Compile Include="RealTime\Communication\Signals.cs" />
-    <Compile Include="RealTime\Communication\EndPoints.cs" />
     <Compile Include="RealTime\Person\Person.cs" />
     <Compile Include="RealTime\ISessionExtensions.cs" />
     <Compile Include="RealTime\Extensions\PasswordExtensions.cs" />

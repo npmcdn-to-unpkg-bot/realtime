@@ -34,6 +34,5 @@
   },
   "_source": "https://github.com/Temasys/AdapterJS.git",
   "_target": "^0.13.3",
-  "_originalSource": "adapterjs",
-  "_direct": true
+  "_originalSource": "adapterjs"
 }

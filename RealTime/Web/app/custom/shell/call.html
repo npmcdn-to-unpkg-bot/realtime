@@ -3,3 +3,21 @@
 <video id="remoteVideo" autoplay style="width: 100%; max-width: 100%"></video>
 
 <a ng-click="vm.call()" class="btn btn-default">Call</a>
+
+<div ng-if="vm.requestedCallsWhereCaller.length > 0">
+    <h2>Outgoing</h2>
+    <ul>
+        <li ng-repeat="call in vm.requestedCallsWhereCaller">
+            <a class="btn btn-link" ng-click="vm.withdraw(call)">Withdraw</a>
+        </li>
+    </ul>
+</div>
+
+<div ng-if="vm.requestedCallsWhereCallee.length > 0">
+    <h2>Incoming</h2>
+    <ul>
+        <li ng-repeat="call in vm.requestedCallsWhereCallee">
+            <a class="btn btn-link" ng-click="vm.accept(call)">Accept</a>
+        </li>
+    </ul>
+</div>
