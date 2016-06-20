@@ -12,11 +12,13 @@
     {
         void onRefresh();
 
-        void onCandidate(string candidate);
+        void onReady(string callId);
 
-        void onOffer(string offer);
+        void onCandidate(string callId, string candidate);
 
-        void onAnswer(string offer);
+        void onOffer(string callId, string offer);
+
+        void onAnswer(string callId, string offer);
     }
 
     [HubName("allors")]
@@ -98,19 +100,24 @@
             this.Clients.User(userName).onRefresh();
         }
 
-        public void Candidate(string userName, string candidate)
+        public void Ready(string userName, string callId)
         {
-            this.Clients.User(userName).onCandidate(candidate);
+            this.Clients.User(userName).onReady(callId);
         }
 
-        public void Offer(string userName, string offer)
+        public void Candidate(string userName, string callId, string candidate)
         {
-            this.Clients.User(userName).onOffer(offer);
+            this.Clients.User(userName).onCandidate(callId, candidate);
         }
 
-        public void Answer(string userName, string answer)
+        public void Offer(string userName, string callId, string offer)
         {
-            this.Clients.User(userName).onAnswer(answer);
+            this.Clients.User(userName).onOffer(callId, offer);
+        }
+
+        public void Answer(string userName, string callId, string answer)
+        {
+            this.Clients.User(userName).onAnswer(callId, answer);
         }
 
         private static ISession CreateSession()

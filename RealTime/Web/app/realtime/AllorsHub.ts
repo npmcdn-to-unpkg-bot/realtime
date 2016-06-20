@@ -3,6 +3,7 @@
     export class AllorsHub {
 
         static onRefreshEvent = "AllorsHub.OnRefresh";
+        static onReadyEvent = "AllorsHub.OnReady";
         static onOfferEvent = "AllorsHub.OnOffer";
         static onCandidateEvent = "AllorsHub.OnCandidate";
         static onAnswerEvent = "AllorsHub.OnAnswer";
@@ -17,18 +18,20 @@
                         'onRefresh': () => {
                             this.$rootScope.$broadcast(AllorsHub.onRefreshEvent);
                         },
-                        'onOffer': (offer) => {
-                            this.$rootScope.$broadcast(AllorsHub.onOfferEvent, offer);
+                        'onReady': (callId, offer) => {
+                            this.$rootScope.$broadcast(AllorsHub.onReadyEvent, callId, offer);
                         },
-                        'onCandidate': (candidate) => {
-                            this.$rootScope.$broadcast(AllorsHub.onCandidateEvent, candidate);
+                        'onOffer': (callId, offer) => {
+                            this.$rootScope.$broadcast(AllorsHub.onOfferEvent, callId, offer);
                         },
-                        'onAnswer': (answer) => {
-                            this.$rootScope.$broadcast(AllorsHub.onAnswerEvent, answer);
+                        'onCandidate': (callId, candidate) => {
+                            this.$rootScope.$broadcast(AllorsHub.onCandidateEvent, callId, candidate);
+                        },
+                        'onAnswer': (callId, answer) => {
+                            this.$rootScope.$broadcast(AllorsHub.onAnswerEvent, callId, answer);
                         }
-
                     },
-                    methods: ["refresh", "candidate", "offer", "answer"],
+                    methods: ["refresh", "candidate", "offer", "answer","ready"],
                     errorHandler: this.errorHandler
                 });
         }
@@ -37,18 +40,22 @@
             this.hub.invoke("refresh", userName);
         }
 
-        candidate(userName: string, candidate: string) {
-            this.hub.invoke("candidate", userName, candidate);
+        ready(userName: string, callId: string) {
+            this.hub.invoke("ready", userName, callId);
         }
 
-        offer(userName: string, offer: string) {
-            this.hub.invoke("offer", userName, offer);
+        candidate(userName: string, callId: string, candidate: string) {
+            this.hub.invoke("candidate", userName, callId, candidate);
         }
 
-        answer(userName: string, answer: string) {
-            this.hub.invoke("answer", userName, answer);
+        offer(userName: string, callId: string, offer: string) {
+            this.hub.invoke("offer", userName, callId, offer);
         }
 
+        answer(userName: string, callId: string, answer: string) {
+            this.hub.invoke("answer", userName, callId, answer);
+        }
+       
         private errorHandler(error: string) {
             throw error;
         }

@@ -21,6 +21,7 @@
 
         public void RealTimeOnDerive(ObjectOnDerive method)
         {
+            var derivation = method.Derivation;
         }
     }
 }

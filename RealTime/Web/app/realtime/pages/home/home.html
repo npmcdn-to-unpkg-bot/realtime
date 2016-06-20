@@ -7,19 +7,19 @@
 
 <a ng-click="vm.call()" class="btn btn-default">Call</a>
 
-<div ng-if="vm.requestedCallsWhereCaller.length > 0">
+<div ng-if="vm.callsWhereCaller.length > 0">
     <h2>Outgoing</h2>
     <ul>
-        <li ng-repeat="call in vm.requestedCallsWhereCaller">
+        <li ng-repeat="call in vm.callsWhereCaller">
             <a class="btn btn-link" ng-click="vm.withdraw(call)">Withdraw</a>
         </li>
     </ul>
 </div>
 
-<div ng-if="vm.requestedCallsWhereCallee.length > 0">
+<div ng-if="vm.callsWhereCallee.length > 0">
     <h2>Incoming</h2>
     <ul>
-        <li ng-repeat="call in vm.requestedCallsWhereCallee">
+        <li ng-repeat="call in vm.callsWhereCallee">
             <a class="btn btn-link" ng-click="vm.accept(call)">Accept</a>
         </li>
     </ul>

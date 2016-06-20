@@ -21,7 +21,10 @@
             onlinePeople.Filter.AddEquals(M.Person.IsOnline, true);
             response.AddCollection("onlinePeople", onlinePeople, M.Person.MainOnlineTree);
 
+            var requested = new CallObjectStates(this.AllorsSession).Requested;
+
             var calls = new Calls(this.AllorsSession).Extent();
+            calls.Filter.AddEquals(M.Call.CurrentObjectState, requested);
             var or = calls.Filter.AddOr();
             or.AddEquals(M.Call.Caller, me);
             or.AddEquals(M.Call.Callee, me);

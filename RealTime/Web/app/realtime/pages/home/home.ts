@@ -7,11 +7,8 @@
 
         calls: Call[];
 
-        requestedCalls: Call[];
-        acceptedCalls: Call[];
-
-        requestedCallsWhereCaller: Call[];
-        requestedCallsWhereCallee: Call[];
+        callsWhereCaller: Call[];
+        callsWhereCallee: Call[];
 
         callObjectStates: CallObjectState[];
         
@@ -42,7 +39,9 @@
             const other = call.other(this.me);
             call.CurrentObjectState = this.callObjectStates.filter(v => v.isAccepted)[0];
             this.save()
-                .then(() => this.allors.application.hub.refresh(other.UserName));
+                .then(() => {
+                    this.allors.application.hub.refresh(other.UserName)
+                });
         }
 
         protected refresh(): angular.IPromise<any> {
@@ -53,11 +52,8 @@
 
                     this.calls = this.collections["calls"] as Call[];
 
-                    this.requestedCalls = this.calls.filter(v => v.CurrentObjectState.isRequested);
-                    this.acceptedCalls = this.calls.filter(v => v.CurrentObjectState.isAccepted);
-
-                    this.requestedCallsWhereCallee = this.requestedCalls.filter(v => v.isCallee(this.me));
-                    this.requestedCallsWhereCaller = this.requestedCalls.filter(v => v.isCaller(this.me));
+                    this.callsWhereCallee = this.calls.filter(v => v.isCallee(this.me));
+                    this.callsWhereCaller = this.calls.filter(v => v.isCaller(this.me));
 
                     this.callObjectStates = this.collections["callObjectStates"] as CallObjectState[];
                 });
