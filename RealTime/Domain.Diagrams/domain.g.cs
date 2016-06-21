@@ -233,5 +233,9 @@ namespace Allors.Domain
 		{
 						global::System.Boolean? IsOnline {set;}
 
+						Call RequestedCalls {set;}
+
+						Call AcceptedCall {set;}
+
 		}
 }

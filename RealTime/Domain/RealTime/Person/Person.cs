@@ -7,6 +7,7 @@
 namespace Allors.Domain
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     public partial class Person
     {
@@ -19,11 +20,27 @@ namespace Allors.Domain
         public void RealTimeOnDerive(ObjectOnDerive method)
         {
             this.DeriveSecurity();
+
+            var requestedCalls = new List<Call>();
+            requestedCalls.AddRange(this.CallsWhereCaller.Where(v => v.CurrentObjectState.IsRequested));
+            requestedCalls.AddRange(this.CallsWhereCallee.Where(v => v.CurrentObjectState.IsRequested));
+            this.RequestedCalls = requestedCalls.ToArray();
+
+            var acceptedCalls = this.GetAllAcceptedCalls();
+            this.AcceptedCall = acceptedCalls.FirstOrDefault();
         }
 
         public override string ToString()
         {
             return this.UserName;
+        }
+
+        internal HashSet<Call> GetAllAcceptedCalls()
+        {
+            var acceptedCalls = new HashSet<Call>();
+            acceptedCalls.UnionWith(this.CallsWhereCaller.Where(v => v.CurrentObjectState.IsAccepted));
+            acceptedCalls.UnionWith(this.CallsWhereCallee.Where(v => v.CurrentObjectState.IsAccepted));
+            return acceptedCalls;
         }
 
         private void DeriveSecurity()

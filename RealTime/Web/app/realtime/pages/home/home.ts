@@ -9,9 +9,7 @@
 
         callsWhereCaller: Call[];
         callsWhereCallee: Call[];
-
-        callObjectStates: CallObjectState[];
-        
+       
         static $inject = ["allorsService", "$scope"];
         constructor(private allors: Services.AllorsService,$scope: angular.IScope) {
             super("AppHome", allors, $scope);
@@ -37,11 +35,26 @@
 
         accept(call: Call) {
             const other = call.other(this.me);
-            call.CurrentObjectState = this.callObjectStates.filter(v => v.isAccepted)[0];
-            this.save()
-                .then(() => {
-                    this.allors.application.hub.refresh(other.UserName)
-                });
+
+            this
+                .invoke(call.Accept)
+                .finally(() => this.allors.application.hub.refresh(other.UserName));
+        }
+
+        withdraw(call: Call) {
+            const other = call.other(this.me);
+
+            this
+                .invoke(call.Withdraw)
+                .finally(() => this.allors.application.hub.refresh(other.UserName));
+        }
+
+        reject(call: Call) {
+            const other = call.other(this.me);
+
+            this
+                .invoke(call.Reject)
+                .finally(() => this.allors.application.hub.refresh(other.UserName));
         }
 
         protected refresh(): angular.IPromise<any> {
@@ -50,12 +63,10 @@
                     this.me = this.objects["me"] as Person;
                     this.onlinePeople = this.collections["onlinePeople"] as Person[];
 
-                    this.calls = this.collections["calls"] as Call[];
+                    this.calls = this.me.RequestedCalls;
 
                     this.callsWhereCallee = this.calls.filter(v => v.isCallee(this.me));
                     this.callsWhereCaller = this.calls.filter(v => v.isCaller(this.me));
-
-                    this.callObjectStates = this.collections["callObjectStates"] as CallObjectState[];
                 });
         }
     }

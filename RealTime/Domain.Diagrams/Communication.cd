@@ -2,10 +2,26 @@
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
   <Interface Name="Allors.Domain.Person">
     <Position X="1" Y="1.25" Width="1.5" />
+    <AssociationLine Name="RequestedCalls" Type="Allors.Domain.Call" FixedFromPoint="true">
+      <Path>
+        <Point X="2.5" Y="2.5" />
+        <Point X="4.25" Y="2.5" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="AcceptedCall" Type="Allors.Domain.Call" FixedFromPoint="true">
+      <Path>
+        <Point X="2.5" Y="2.188" />
+        <Point X="4.25" Y="2.188" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>ACAAAAAAAAAAAAAAAAAAAAAAAACgAAAAAAAAAAAAAAA=</HashCode>
       <FileName>domain.g.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="RequestedCalls" />
+      <Property Name="AcceptedCall" />
+    </ShowAsAssociation>
   </Interface>
   <Interface Name="Allors.Domain.Call">
     <Position X="4.25" Y="1.25" Width="2" />

@@ -409,6 +409,7 @@
     <Compile Include="Generated\CallEnd.g.cs" />
     <Compile Include="Generated\CallObjectState.g.cs" />
     <Compile Include="Generated\CallReject.g.cs" />
+    <Compile Include="Generated\CallWithdraw.g.cs" />
     <Compile Include="Generated\Counter.g.cs" />
     <Compile Include="Generated\Country.g.cs" />
     <Compile Include="Generated\Currency.g.cs" />

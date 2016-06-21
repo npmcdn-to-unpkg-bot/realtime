@@ -1,6 +1,5 @@
 ﻿namespace Web.Controllers
 {
-    using System.Linq;
     using System.Web.Mvc;
 
     using Allors.Domain;
@@ -20,17 +19,6 @@
 
             var existingCall = this.AllorsSession.Instantiate(existingCallId);
             response.AddObject("existingCall", existingCall, M.Call.MainTree);
-
-            var accepted = new CallObjectStates(this.AllorsSession).Accepted;
-
-            var calls = new Calls(this.AllorsSession).Extent();
-            calls.Filter.AddEquals(M.Call.CurrentObjectState, accepted);
-            var or = calls.Filter.AddOr();
-            or.AddEquals(M.Call.Caller, me);
-            or.AddEquals(M.Call.Callee, me);
-
-            var call = calls.FirstOrDefault();
-            response.AddObject("call", call, M.Call.MainTree);
 
             return this.JsonSuccess(response.Build());
         }

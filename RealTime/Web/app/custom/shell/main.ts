@@ -20,7 +20,8 @@
 
         isCaller: boolean;
 
-        ready: boolean;
+        isReady: boolean;
+        isInit: boolean;
 
         static $inject = ["allorsService", "$scope"];
         constructor(private allors: Services.AllorsService, $scope: angular.IScope) {
@@ -52,7 +53,8 @@
                 this.peerConnection.close();
             }
 
-            this.ready = null;
+            this.isReady = null;
+            this.isInit = null;
             this.localStream = null;
             this.remoteStream = null;
             this.peerConnection = null;
@@ -64,7 +66,6 @@
 
             this
                 .invoke(call.End)
-                
                 .finally(() => this.allors.application.hub.refresh(other.UserName) );
         }
 
@@ -73,8 +74,7 @@
                 .then(() => {
 
                     this.me = this.objects["me"] as Person;
-
-                    var call = this.objects["call"] as Call;
+                    var call = this.me.AcceptedCall;
 
                     // hang up current call if new call is accepted
                     if (this.call && this.call !== call) {
@@ -98,12 +98,15 @@
                                         this.peerConnection = new RTCPeerConnection({ iceServers: this.iceServers });
                                         this.peerConnection.addStream(this.localStream);
 
+                                        this.callerInit();
+
                                         this.allors.application.hub.ready(this.other.UserName, this.call.id.toString());
                                     }
                                 },
                                 error => {
                                     this.allors.$log.error(error);
                                     this.hangup();
+                                    alert(`Problem getting video, please restart call.\n\n${error.message}`);
                                 }
                             );
                         }
@@ -113,26 +116,11 @@
 
         private onReady(callId: string) {
             if (this.isCaller) {
-                if (!this.ready) {
-                    this.ready = true;
-
-                    this.peerConnection.onicecandidate = event => this.localOnCandidate(event);
-                    this.peerConnection.onaddstream = event => this.onAddStream(event);
-                    this.peerConnection.onremovestream = event => this.onRemoveStream(event);
-
-                    this.peerConnection.createOffer(offer => {
-
-                        this.allors.$log.info(`peerConnection.createOffer: ${offer}`);
-
-                        this.peerConnection.setLocalDescription(offer);
-
-                        this.allors.application.hub.offer(this.other.UserName, this.call.id.toString(), JSON.stringify(offer));
-                    },
-                    error => {
-                        this.allors.$log.error(error);
-                    });
-
+                if (!this.isReady) {
+                    this.isReady = true;
                 }
+
+                this.callerInit();
             } else {
                 // ping back
                 if (this.peerConnection) {
@@ -159,7 +147,7 @@
         private onOffer(callId: string, offer: string) {
             this.allors.$log.info(`onOffer: ${offer}`);
 
-            this.lazyInit();
+            this.calleeInit();
 
             this.peerConnection.setRemoteDescription(new RTCSessionDescription(JSON.parse(offer)),
                 () => {
@@ -190,7 +178,7 @@
         private onAnswer(callId: string, answer: string) {
             this.allors.$log.info(`onAnswer: ${answer}`);
 
-            this.lazyInit();
+            this.calleeInit();
 
             this.peerConnection.setRemoteDescription(new RTCSessionDescription(JSON.parse(answer)),
                 () => {
@@ -204,7 +192,7 @@
         private onAddStream(event: RTCMediaStreamEvent): void {
             this.allors.$log.info(`onAddStream: ${event}`);
 
-            this.lazyInit();
+            this.calleeInit();
 
             this.remoteStream = event.stream;
             this.remoteVideo = AdapterJS.attachMediaStream(document.getElementById("remoteVideo"), this.remoteStream);
@@ -215,15 +203,42 @@
 
             this.allors.$log.info(`onRemoveStream: ${event}`);
 
-            this.lazyInit();
+            this.calleeInit();
 
             AdapterJS.attachMediaStream(this.remoteVideo, null);
             this.remoteStream = null;
         }
 
-        private lazyInit() {
-            if (!this.ready) {
-                this.ready = true;
+        private callerInit() {
+
+            if (this.isReady && this.peerConnection && !this.isInit) {
+                this.isInit = true;
+
+                this.allors.$log.info(`callerInit:`);
+
+                this.peerConnection.onicecandidate = event => this.localOnCandidate(event);
+                this.peerConnection.onaddstream = event => this.onAddStream(event);
+                this.peerConnection.onremovestream = event => this.onRemoveStream(event);
+
+                this.peerConnection.createOffer(offer => {
+
+                    this.allors.$log.info(`peerConnection.createOffer: ${offer}`);
+
+                    this.peerConnection.setLocalDescription(offer);
+
+                    this.allors.application.hub.offer(this.other.UserName, this.call.id.toString(), JSON.stringify(offer));
+                },
+                    error => {
+                        this.allors.$log.error(error);
+                    });
+            }
+        }
+
+        private calleeInit() {
+            if (!this.isInit) {
+                this.isInit = true;
+
+                this.allors.$log.info(`calleeInit:`);
 
                 this.peerConnection.onicecandidate = event => this.localOnCandidate(event);
                 this.peerConnection.onaddstream = event => this.onAddStream(event);

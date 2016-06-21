@@ -38,7 +38,29 @@ namespace Allors.Repository.Domain
         #endregion
         [Group("Workspace")]
         public bool IsOnline { get; set; }
-        
+
+        #region Allors
+        [Id("6DEF4F8D-4039-4990-8BC7-F6517630194B")]
+        [AssociationId("71AD593D-8C04-4D9D-A056-0161FD0B69A7")]
+        [RoleId("C3B386A8-A4F8-4544-8EB8-2D8FBC2DF138")]
+        [Indexed]
+        #endregion
+        [Multiplicity(Multiplicity.ManyToMany)]
+        [Group("Workspace")]
+        [Derived]
+        public Call[] RequestedCalls { get; set; }
+
+        #region Allors
+        [Id("4655E9AD-B6FA-473A-AA50-E9BF06BDC4BB")]
+        [AssociationId("C98E3EEC-D228-442F-B72F-002492EB13F1")]
+        [RoleId("A8E542C2-259A-4C55-A2D2-F75B1C9E356E")]
+        [Indexed]
+        #endregion
+        [Multiplicity(Multiplicity.ManyToOne)]
+        [Group("Workspace")]
+        [Derived]
+        public Call[] AcceptedCall { get; set; }
+
         #region inherited methods
         public void OnBuild() { }
 

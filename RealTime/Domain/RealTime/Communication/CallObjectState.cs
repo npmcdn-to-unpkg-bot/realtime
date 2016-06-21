@@ -11,7 +11,9 @@ namespace Allors.Domain
         public bool IsRequested => this.UniqueId == CallObjectStates.RequestedId;
 
         public bool IsAccepted => this.UniqueId == CallObjectStates.AcceptedId;
-       
+
+        public bool IsWithdrawn => this.UniqueId == CallObjectStates.WithdrawnId;
+
         public bool IsRejected => this.UniqueId == CallObjectStates.RejectedId;
 
         public bool IsEnded => this.UniqueId == CallObjectStates.EndedId;

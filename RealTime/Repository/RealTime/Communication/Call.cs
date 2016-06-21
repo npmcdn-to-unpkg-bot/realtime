@@ -38,6 +38,7 @@ namespace Allors.Repository.Domain
         [RoleId("C39F9D90-8BAD-487F-91AA-3306379F5EB2")]
         #endregion
         [Group("Workspace")]
+        [Derived]
         public DateTime CreationDate { get; set; }
 
         #region Allors
@@ -46,6 +47,7 @@ namespace Allors.Repository.Domain
         [RoleId("3227b2b2-e199-440c-accb-017d63f522d8")]
         #endregion
         [Group("Workspace")]
+        [Derived]
         public DateTime StartDate { get; set; }
 
         #region Allors
@@ -54,6 +56,7 @@ namespace Allors.Repository.Domain
         [RoleId("cad6cee8-fd81-47dd-9bab-fe12e136c0cb")]
         #endregion
         [Group("Workspace")]
+        [Derived]
         public DateTime EndDate { get; set; }
 
         #region Allors
@@ -64,6 +67,7 @@ namespace Allors.Repository.Domain
         #endregion
         [Multiplicity(Multiplicity.ManyToOne)]
         [Group("Workspace")]
+        [Required]
         public Person Caller { get; set; }
 
         #region Allors
@@ -74,6 +78,7 @@ namespace Allors.Repository.Domain
         #endregion
         [Multiplicity(Multiplicity.ManyToOne)]
         [Group("Workspace")]
+        [Required]
         public Person Callee { get; set; }
 
         #region Allors
@@ -81,6 +86,14 @@ namespace Allors.Repository.Domain
         #endregion
         [Group("Workspace")]
         public void Accept()
+        {
+        }
+
+        #region Allors
+        [Id("55723E5B-B5B7-4A36-8E1C-6EF4F96275E9")]
+        #endregion
+        [Group("Workspace")]
+        public void Withdraw()
         {
         }
 
