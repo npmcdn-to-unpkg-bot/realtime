@@ -14,7 +14,6 @@ namespace Allors.Domain
         public static readonly Guid RequestedId = new Guid("4706152D-6CA8-4BC7-880D-981F2739CD26");
         public static readonly Guid AcceptedId = new Guid("A95FFD0F-113E-483B-9B37-CF56371AC518");
         public static readonly Guid RejectedId = new Guid("FFA6492D-C648-488A-9D0B-2767FED7CD33");
-        public static readonly Guid AbortedId = new Guid("E51B1E64-7A87-49FB-B74A-75CB4CB91F59");
         public static readonly Guid EndedId = new Guid("78BDF595-9C16-46A5-81A7-460F2FB163FF");
 
         private UniquelyIdentifiableCache<CallObjectState> cache;
@@ -22,7 +21,6 @@ namespace Allors.Domain
         public CallObjectState Requested => this.Cache.Get(RequestedId);
         public CallObjectState Accepted => this.Cache.Get(AcceptedId);
         public CallObjectState Rejected => this.Cache.Get(RejectedId);
-        public CallObjectState Aborted => this.Cache.Get(AbortedId);
         public CallObjectState Ended => this.Cache.Get(EndedId);
 
         private UniquelyIdentifiableCache<CallObjectState> Cache => this.cache ?? (this.cache = new UniquelyIdentifiableCache<CallObjectState>(this.Session));
@@ -32,7 +30,6 @@ namespace Allors.Domain
             new CallObjectStateBuilder(this.Session).WithUniqueId(RequestedId).WithName("Requested").Build();
             new CallObjectStateBuilder(this.Session).WithUniqueId(AcceptedId).WithName("Accepted").Build();
             new CallObjectStateBuilder(this.Session).WithUniqueId(RejectedId).WithName("Rejected").Build();
-            new CallObjectStateBuilder(this.Session).WithUniqueId(AbortedId).WithName("Aborted").Build();
             new CallObjectStateBuilder(this.Session).WithUniqueId(EndedId).WithName("Ended").Build();
         }
 

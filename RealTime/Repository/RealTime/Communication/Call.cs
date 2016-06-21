@@ -75,6 +75,30 @@ namespace Allors.Repository.Domain
         [Multiplicity(Multiplicity.ManyToOne)]
         [Group("Workspace")]
         public Person Callee { get; set; }
+
+        #region Allors
+        [Id("D58AC3E1-9B00-4A81-A4C6-7D3BA460A663")]
+        #endregion
+        [Group("Workspace")]
+        public void Accept()
+        {
+        }
+
+        #region Allors
+        [Id("F71760CE-7BBF-46B4-9331-FCD73D5C8CB9")]
+        #endregion
+        [Group("Workspace")]
+        public void Reject()
+        {
+        }
+
+        #region Allors
+        [Id("9765017B-33D9-4283-B63D-6BCA523E8EF0")]
+        #endregion
+        [Group("Workspace")]
+        public void End()
+        {
+        }
         
         #region inherited methods
 

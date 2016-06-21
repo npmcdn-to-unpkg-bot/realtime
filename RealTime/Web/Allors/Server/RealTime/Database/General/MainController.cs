@@ -11,12 +11,15 @@
     {
         [Authorize]
         [HttpPost]
-        public ActionResult Pull()
+        public ActionResult Pull(string existingCallId)
         {
             var response = new PullResponseBuilder(this.AllorsUser);
 
             var me = (Person)this.AllorsUser;
             response.AddObject("me", me, M.Person.MainTree);
+
+            var existingCall = this.AllorsSession.Instantiate(existingCallId);
+            response.AddObject("existingCall", existingCall, M.Call.MainTree);
 
             var accepted = new CallObjectStates(this.AllorsSession).Accepted;
 
@@ -28,9 +31,6 @@
 
             var call = calls.FirstOrDefault();
             response.AddObject("call", call, M.Call.MainTree);
-
-            var callObjectStates = new CallObjectStates(this.AllorsSession).Extent();
-            response.AddCollection("callObjectStates", callObjectStates);
 
             return this.JsonSuccess(response.Build());
         }

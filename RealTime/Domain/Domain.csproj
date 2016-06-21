@@ -405,7 +405,10 @@
     <Compile Include="Generated\AsyncDerivableAsyncDerive.g.cs" />
     <Compile Include="Generated\AsyncDerivation.g.cs" />
     <Compile Include="Generated\Call.g.cs" />
+    <Compile Include="Generated\CallAccept.g.cs" />
+    <Compile Include="Generated\CallEnd.g.cs" />
     <Compile Include="Generated\CallObjectState.g.cs" />
+    <Compile Include="Generated\CallReject.g.cs" />
     <Compile Include="Generated\Counter.g.cs" />
     <Compile Include="Generated\Country.g.cs" />
     <Compile Include="Generated\Currency.g.cs" />

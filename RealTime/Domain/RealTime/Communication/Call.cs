@@ -6,6 +6,21 @@
 
         ObjectState Transitional.CurrentObjectState => this.CurrentObjectState;
 
+        public void RealTimeAccept(CallAccept method)
+        {
+            this.CurrentObjectState = this.ObjectStates.Accepted;
+        }
+
+        public void RealTimeReject(CallReject method)
+        {
+            this.CurrentObjectState = this.ObjectStates.Rejected;
+        }
+
+        public void RealTimeEnd(CallEnd method)
+        {
+            this.CurrentObjectState = this.ObjectStates.Ended;
+        }
+
         public void RealTimeOnBuild(ObjectOnBuild method)
         {
             if (!this.ExistCreationDate)

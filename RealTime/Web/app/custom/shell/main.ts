@@ -5,9 +5,7 @@
         // Only on same subnet
         iceServers = [
         ];
-
-        callObjectStates: CallObjectState[];
-        
+       
         localStream: MediaStream;
         remoteStream: MediaStream;
 
@@ -64,51 +62,50 @@
             this.localVideo = null;
             this.remoteVideo = null;
 
-            call.CurrentObjectState = this.callObjectStates.filter(v => v.isEnded)[0];
-            this.context
-                .save()
-                .finally(() => this.allors.application.hub.refresh(other.UserName));
+            this
+                .invoke(call.End)
+                
+                .finally(() => this.allors.application.hub.refresh(other.UserName) );
         }
 
         protected refresh(): angular.IPromise<any> {
-            return this.load()
+            return this.load({ existingCallId: this.call && this.call.id })
                 .then(() => {
 
                     this.me = this.objects["me"] as Person;
-                    this.callObjectStates = this.collections["callObjectStates"] as CallObjectState[];
 
                     var call = this.objects["call"] as Call;
 
                     // hang up current call if new call is accepted
                     if (this.call && this.call !== call) {
                         this.hangup();
-                    } else {
-                        if (call) {
-                            if (!this.call) {
-                                this.call = call;
-                                this.other = call.other(this.me);
-                                this.isCaller = this.call.isCaller(this.me);
+                    }
 
-                                navigator.getUserMedia({ video: true, audio: false },
-                                    (stream: MediaStream) => {
+                    if (call) {
+                        if (!this.call) {
+                            this.call = call;
+                            this.other = call.other(this.me);
+                            this.isCaller = this.call.isCaller(this.me);
 
-                                        this.localStream = stream;
-                                        this.localVideo = AdapterJS.attachMediaStream(document.getElementById("localVideo"), stream);
-                                        this.localVideo.play();
+                            navigator.getUserMedia({ video: true, audio: false },
+                                (stream: MediaStream) => {
 
-                                        if (!this.peerConnection) {
-                                            this.peerConnection = new RTCPeerConnection({ iceServers: this.iceServers });
-                                            this.peerConnection.addStream(this.localStream);
+                                    this.localStream = stream;
+                                    this.localVideo = AdapterJS.attachMediaStream(document.getElementById("localVideo"), stream);
+                                    this.localVideo.play();
 
-                                            this.allors.application.hub.ready(this.other.UserName, this.call.id.toString());
-                                        }
-                                    },
-                                    error => {
-                                        this.allors.$log.error(error);
-                                        this.hangup();
+                                    if (!this.peerConnection) {
+                                        this.peerConnection = new RTCPeerConnection({ iceServers: this.iceServers });
+                                        this.peerConnection.addStream(this.localStream);
+
+                                        this.allors.application.hub.ready(this.other.UserName, this.call.id.toString());
                                     }
-                                );
-                            }
+                                },
+                                error => {
+                                    this.allors.$log.error(error);
+                                    this.hangup();
+                                }
+                            );
                         }
                     }
                 });

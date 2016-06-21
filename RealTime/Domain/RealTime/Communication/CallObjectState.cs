@@ -14,8 +14,6 @@ namespace Allors.Domain
        
         public bool IsRejected => this.UniqueId == CallObjectStates.RejectedId;
 
-        public bool IsAborted => this.UniqueId == CallObjectStates.AbortedId;
-
         public bool IsEnded => this.UniqueId == CallObjectStates.EndedId;
 
         public override string ToString()
